@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Robot
         private static Thread thread;
 
         private static readonly byte[] packet = new byte[1116];//1116
+        private static byte[] data = new byte[1116];
         private static readonly byte firstPacketSize = 4;
         private static readonly byte offset = 8;
         private static readonly UInt32 totalMsgLenght = 3288596480;
@@ -41,22 +43,40 @@ namespace Robot
             tcpRead.Dispose();
         }
 
-        private static void FetchValues()
+        private static async void FetchValues()
         {
             NetworkStream stream = tcpRead.GetStream();
 
             try
             {
+                Stopwatch sw = new Stopwatch();
                 while (Connection.unityState != Connection.UnityState.offline)
                 {
-                    if (stream.Read(packet, 0, packet.Length) != 0)
+                    sw.Restart();
+
+                    if (stream.Read(packet, 0, data.Length) != 0)
                     {
+<<<<<<< Updated upstream
                         if (BitConverter.ToUInt32(packet, firstPacketSize - 4) == totalMsgLenght ||
                            BitConverter.ToUInt32(packet, firstPacketSize - 4) == 1543766016)
+=======
+                        data = packet;
+                        double msgLength = BitConverter.ToUInt32(data, firstPacketSize - 4);
+
+                        if (msgLength == totalMsgLenght || msgLength == 1543766016)
+>>>>>>> Stashed changes
                         {
+                            //Thread.Sleep(rnd);
+                            //Debug.Log($"Accepted: {BitConverter.ToUInt32(data, firstPacketSize - 4)}, Sample: {BitConverter.ToDouble(data, data.Length - firstPacketSize - (32 * offset))}");
+                            
                             ReadRobotInfo();
+
+                            //Debug.Log("Next routine in " + sw.Elapsed.TotalMilliseconds % 2);
+                            //await Task.Delay((int)sw.Elapsed.TotalMilliseconds % 2);
+                            //Thread.Sleep((int)sw.Elapsed.TotalMilliseconds % 2);
                         }
-                    }
+                        
+                    } 
                 }
                 
             }
@@ -69,7 +89,7 @@ namespace Robot
 
         private static void ReadRobotInfo()
         {
-            Array.Reverse(packet);
+            Array.Reverse(data);
 
             //Target Joint Positions 2 - 7
 
@@ -79,21 +99,21 @@ namespace Robot
 
 
             //Actual joint posistions 32 - 37
-            RobotPos.Current.jointRot[0] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (32 * offset));
-            RobotPos.Current.jointRot[1] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (33 * offset));
-            RobotPos.Current.jointRot[2] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (34 * offset));
-            RobotPos.Current.jointRot[3] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (35 * offset));
-            RobotPos.Current.jointRot[4] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (36 * offset));
-            RobotPos.Current.jointRot[5] = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (37 * offset));
+            RobotPos.Current.jointRot[0] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (32 * offset));
+            RobotPos.Current.jointRot[1] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (33 * offset));
+            RobotPos.Current.jointRot[2] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (34 * offset));
+            RobotPos.Current.jointRot[3] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (35 * offset));
+            RobotPos.Current.jointRot[4] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (36 * offset));
+            RobotPos.Current.jointRot[5] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (37 * offset));
 
             //Actual Cartesian Coord of tool 56 - 61
-            RobotPos.Current.position = new Vector3((float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (56 * offset)),
-                                        (float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (57 * offset)),
-                                        (float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (58 * offset)));
+            RobotPos.Current.position = new Vector3((float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (56 * offset)),
+                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (57 * offset)),
+                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (58 * offset)));
 
-            RobotPos.Current.rotation = new Vector3((float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (59 * offset)),
-                                        (float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (60 * offset)),
-                                        (float)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (61 * offset)));
+            RobotPos.Current.rotation = new Vector3((float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (59 * offset)),
+                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (60 * offset)),
+                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (61 * offset)));
 
             //87 => Base Temp
             //88 => Shoulder Temp
@@ -107,10 +127,10 @@ namespace Robot
             //96 - 101 => Joint Mode
 
             //Modes mode 95
-            Robot.mode = (Robot.RoboModes)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (95 * offset));
+            Robot.mode = (Robot.RoboModes)BitConverter.ToDouble(data, data.Length - firstPacketSize - (95 * offset));
 
             //Saftey mode 102
-            Robot.safety = (Robot.RoboSafety)BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (102 * offset));
+            Robot.safety = (Robot.RoboSafety)BitConverter.ToDouble(data, data.Length - firstPacketSize - (102 * offset));
 
             //Digital Outputs 121 Not used on our Robot
             //Connection.digitalOutput = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (131 * offset));
@@ -124,7 +144,7 @@ namespace Robot
                 for (int i = 0; i < 6; i++)
                 {
 
-                    if (BitConverter.ToDouble(packet, packet.Length - firstPacketSize - ((8 + i) * offset)) == 0) continue;
+                    if (BitConverter.ToDouble(data, data.Length - firstPacketSize - ((8 + i) * offset)) == 0) continue;
                     else return true;
                 }
                 return false;

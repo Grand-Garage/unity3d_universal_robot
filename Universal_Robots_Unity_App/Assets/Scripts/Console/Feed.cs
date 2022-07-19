@@ -17,9 +17,19 @@ public class Feed : MonoBehaviour
         Robot.Connection.OnFeedback -= OnConnectionFeedback;
     }
 
+    private string lastFeedback;
     private void OnConnectionFeedback(string feed)
     {
-        Chat.SendLocalResponse("Cobot", feed);
+        if (feed == lastFeedback)
+        {
+            Chat.Show();
+            Chat.Hide();
+        }
+        else
+        {
+            Chat.SendLocalResponse("Cobot", feed);
+            lastFeedback = feed;
+        }
     }
 
     private void OnConnectionDashboard(string feed)
