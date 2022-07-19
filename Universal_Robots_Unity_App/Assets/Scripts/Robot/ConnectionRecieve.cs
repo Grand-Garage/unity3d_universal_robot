@@ -17,12 +17,14 @@ namespace Robot
         public static TcpClient tcpRead;
         private static Thread thread;
 
-        private static readonly byte[] packet = new byte[1116];//1116
+        private static readonly byte[] packet = new byte[1116]; //1116
         private static byte[] data = new byte[1116];
         private static readonly byte firstPacketSize = 4;
         private static readonly byte offset = 8;
         private static readonly UInt32 totalMsgLenght = 3288596480;
-        private static readonly int timeStep = 2;   //  Communication speed: CB-Series 125 Hz (8 ms), E-Series 500 Hz (2 ms)
+
+        private static readonly int
+            timeStep = 2; //  Communication speed: CB-Series 125 Hz (8 ms), E-Series 500 Hz (2 ms)
 
 
         public static async Task Start(string host, int port)
@@ -31,7 +33,7 @@ namespace Robot
             await tcpRead.ConnectAsync(host, port);
 
             thread = new Thread(new ThreadStart(FetchValues));
-            thread.Start();  
+            thread.Start();
         }
 
         public static void Stop()
@@ -49,36 +51,19 @@ namespace Robot
 
             try
             {
-                Stopwatch sw = new Stopwatch();
                 while (Connection.unityState != Connection.UnityState.offline)
                 {
-                    sw.Restart();
-
                     if (stream.Read(packet, 0, data.Length) != 0)
                     {
-<<<<<<< Updated upstream
-                        if (BitConverter.ToUInt32(packet, firstPacketSize - 4) == totalMsgLenght ||
-                           BitConverter.ToUInt32(packet, firstPacketSize - 4) == 1543766016)
-=======
                         data = packet;
                         double msgLength = BitConverter.ToUInt32(data, firstPacketSize - 4);
 
                         if (msgLength == totalMsgLenght || msgLength == 1543766016)
->>>>>>> Stashed changes
                         {
-                            //Thread.Sleep(rnd);
-                            //Debug.Log($"Accepted: {BitConverter.ToUInt32(data, firstPacketSize - 4)}, Sample: {BitConverter.ToDouble(data, data.Length - firstPacketSize - (32 * offset))}");
-                            
                             ReadRobotInfo();
-
-                            //Debug.Log("Next routine in " + sw.Elapsed.TotalMilliseconds % 2);
-                            //await Task.Delay((int)sw.Elapsed.TotalMilliseconds % 2);
-                            //Thread.Sleep((int)sw.Elapsed.TotalMilliseconds % 2);
                         }
-                        
-                    } 
+                    }
                 }
-                
             }
             catch (SocketException e)
             {
@@ -107,13 +92,15 @@ namespace Robot
             RobotPos.Current.jointRot[5] = BitConverter.ToDouble(data, data.Length - firstPacketSize - (37 * offset));
 
             //Actual Cartesian Coord of tool 56 - 61
-            RobotPos.Current.position = new Vector3((float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (56 * offset)),
-                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (57 * offset)),
-                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (58 * offset)));
+            RobotPos.Current.position = new Vector3(
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (56 * offset)),
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (57 * offset)),
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (58 * offset)));
 
-            RobotPos.Current.rotation = new Vector3((float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (59 * offset)),
-                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (60 * offset)),
-                                        (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (61 * offset)));
+            RobotPos.Current.rotation = new Vector3(
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (59 * offset)),
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (60 * offset)),
+                (float)BitConverter.ToDouble(data, data.Length - firstPacketSize - (61 * offset)));
 
             //87 => Base Temp
             //88 => Shoulder Temp
@@ -130,26 +117,24 @@ namespace Robot
             Robot.mode = (Robot.RoboModes)BitConverter.ToDouble(data, data.Length - firstPacketSize - (95 * offset));
 
             //Saftey mode 102
-            Robot.safety = (Robot.RoboSafety)BitConverter.ToDouble(data, data.Length - firstPacketSize - (102 * offset));
+            Robot.safety =
+                (Robot.RoboSafety)BitConverter.ToDouble(data, data.Length - firstPacketSize - (102 * offset));
 
             //Digital Outputs 121 Not used on our Robot
             //Connection.digitalOutput = BitConverter.ToDouble(packet, packet.Length - firstPacketSize - (131 * offset));
-
-
-
 
 
             bool CheckIfMoving()
             {
                 for (int i = 0; i < 6; i++)
                 {
-
                     if (BitConverter.ToDouble(data, data.Length - firstPacketSize - ((8 + i) * offset)) == 0) continue;
                     else return true;
                 }
+
                 return false;
             }
-        }  
+        }
     }
 
     public static class Robot
