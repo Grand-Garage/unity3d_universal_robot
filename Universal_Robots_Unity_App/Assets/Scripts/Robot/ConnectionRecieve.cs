@@ -16,7 +16,8 @@ namespace Robot
         public static TcpClient tcpRead;
         private static Thread thread;
 
-        private static readonly byte[] packet = new byte[1116];//1116
+        private static readonly byte[] buffer = new byte[1116];//1116
+        private static byte[] packet = new byte[1116];//1116
         private static readonly byte firstPacketSize = 4;
         private static readonly byte offset = 8;
         private static readonly UInt32 totalMsgLenght = 3288596480;
@@ -49,10 +50,11 @@ namespace Robot
             {
                 while (Connection.unityState != Connection.UnityState.offline)
                 {
-                    if (stream.Read(packet, 0, packet.Length) != 0)
+                    if (stream.Read(buffer, 0, packet.Length) != 0)
                     {
-                        if (BitConverter.ToUInt32(packet, firstPacketSize - 4) == totalMsgLenght ||
-                           BitConverter.ToUInt32(packet, firstPacketSize - 4) == 1543766016)
+                        packet = buffer;
+                        double msgLength = BitConverter.ToUInt32(packet, firstPacketSize - 4);
+                        if (msgLength == totalMsgLenght || msgLength == 1543766016)
                         {
                             ReadRobotInfo();
                         }
