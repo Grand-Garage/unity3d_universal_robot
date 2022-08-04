@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InputTerminal : MonoBehaviour
 {
     public static PlayerInput playerInput;
+    public static InputTerminal inputTerminal;
     public static InputActionAsset inputAsset;
     [SerializeField] private InputActionAsset _inputAsset;
 
@@ -15,6 +16,7 @@ public class InputTerminal : MonoBehaviour
     private void OnEnable()
     {
         playerInput = gameObject.GetComponent<PlayerInput>();
+        inputTerminal = this;
         inputAsset = _inputAsset;
         inputAsset.FindActionMap("Special").Enable();
         inputAsset.FindActionMap("Interface").Enable();
@@ -28,7 +30,7 @@ public class InputTerminal : MonoBehaviour
 
     private void OnDisable() => emergencyStopAction.action.performed -= EmergencyStop;
 
-    private void EmergencyStop(InputAction.CallbackContext ctx) => Robot.CMD.Stop();
+    private void EmergencyStop(InputAction.CallbackContext ctx) => Robot.CMD.EmergencyStop();
 
 
 
@@ -41,14 +43,17 @@ public class InputTerminal : MonoBehaviour
     {
         foreach (InputActionMap inputMap in inputMapsActive) { inputMap.Disable(); }
 
+        inputTerminal.emergencyStopAction.action.Disable();
         registeredInput.Add(allowedInput);
         allowedInput.InputReconfigure();
+        
 
         Cursor.lockState = CursorLockMode.None;
     }
 
     public static void ReleaseInput(InputReg removeInput)
     {
+        inputTerminal.emergencyStopAction.action.Enable();
         registeredInput.Remove(removeInput);
         if (registeredInput.Count == 0)
         {

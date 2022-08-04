@@ -23,6 +23,18 @@ namespace Robot
 
         public static void Stop() => ConnectionSend.Send("stopl(20)\n");
 
+        public static void EmergencyStop() {
+            ConnectionSend.Send("stopj(20)\n");
+
+            switch (Connection.unityState) {
+                case Connection.UnityState.online: Connection.unityState = Connection.UnityState.emergencyStop;
+                    break;
+
+                case Connection.UnityState.emergencyStop: Connection.unityState = Connection.UnityState.online;
+                    break;
+            }
+        }
+
 
         /// <summary>
         /// Moves in a specific direction.

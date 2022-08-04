@@ -631,7 +631,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
+                    "name": "down",
                     "id": "313eee44-284a-46be-9136-ffdc91301566",
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
@@ -642,7 +642,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
+                    "name": "up",
                     "id": "8fb33a43-8ab2-4705-b101-fdb6ffa446b4",
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",
@@ -653,7 +653,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
+                    "name": "right",
                     "id": "7875891e-2d1d-4c28-b55c-4e5a60027e2e",
                     "path": "<Gamepad>/dpad/left",
                     "interactions": "",
@@ -664,7 +664,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
+                    "name": "left",
                     "id": "919e9edf-f9b9-4cc4-8f1b-badc6ceaadd3",
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
@@ -686,7 +686,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
+                    "name": "down",
                     "id": "1dfacfde-36bb-44ca-b5c4-f3f0e092fa46",
                     "path": "<Keyboard>/numpad2",
                     "interactions": "",
@@ -697,7 +697,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
+                    "name": "up",
                     "id": "52bc5e53-064a-4d23-837f-000666e88534",
                     "path": "<Keyboard>/numpad8",
                     "interactions": "",
@@ -708,7 +708,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "left",
+                    "name": "right",
                     "id": "f1bce00c-1d60-436a-b89f-5ab50c79161a",
                     "path": "<Keyboard>/numpad4",
                     "interactions": "",
@@ -719,7 +719,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
+                    "name": "left",
                     "id": "03de8add-af01-41a7-9913-0679ccb53e74",
                     "path": "<Keyboard>/numpad6",
                     "interactions": "",

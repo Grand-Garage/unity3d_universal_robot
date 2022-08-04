@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.EventSystems;
 
 public class TextMeshInputHelper : MonoBehaviour
 {
@@ -13,13 +14,13 @@ public class TextMeshInputHelper : MonoBehaviour
     private void OnEnable()
     {
         tmp.onSelect.AddListener(Select);
-        tmp.onDeselect.AddListener(DeSelect);
+        tmp.onEndEdit.AddListener(DeSelect);
     }
 
     private void OnDisable()
     {
         tmp.onSelect.RemoveListener(Select);
-        tmp.onDeselect.RemoveListener(DeSelect);
+        tmp.onEndEdit.RemoveListener(DeSelect);
     }
 
     private void Select(string arg0)
@@ -30,6 +31,7 @@ public class TextMeshInputHelper : MonoBehaviour
     private void DeSelect(string arg0)
     {
         InputTerminal.ReleaseInput(inputRegistery);
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
 }

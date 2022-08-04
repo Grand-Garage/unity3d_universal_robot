@@ -42,6 +42,8 @@ public class Controller : MonoBehaviour
             Vector3.up * movement.x +
             Vector3.forward * movement.z;
 
+        movement *= Time.deltaTime;
+
         Robot.CMD.SpeedL(movement, rotation, acceleration, time);
         movement = rotation = Vector3.zero;
     }
@@ -51,8 +53,8 @@ public class Controller : MonoBehaviour
     {
         Vector2 inputV = movementAction.action.ReadValue<Vector2>();
 
-        movement.x += inputV.x * speed;
-        movement.y += inputV.y * speed;
+        movement.x += inputV.x * (speed + 2);
+        movement.y += inputV.y * (speed + 2);
     }
 
     private void Altidute()
@@ -65,14 +67,14 @@ public class Controller : MonoBehaviour
     {
         Vector2 inputV = rotationAction.action.ReadValue<Vector2>();
 
-        rotation.x += inputV.x * speed;
-        rotation.y += inputV.y * speed;
+        rotation.x += inputV.x * (speed / 10f);
+        rotation.y += inputV.y * (speed / 10f);
     }
 
     private void GripperRotation()
     {
         float inputV = gripperRotationAction.action.ReadValue<float>();
-        rotation.z += inputV;
+        rotation.z += (inputV / 5);
     }
 
     private void AddWaypoint(CallbackContext ctx)

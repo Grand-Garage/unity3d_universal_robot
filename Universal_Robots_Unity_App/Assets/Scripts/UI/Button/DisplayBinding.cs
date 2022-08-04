@@ -66,6 +66,7 @@ public class DisplayBinding : MonoBehaviour
 
     private string TranslateSprites(string input)
     {
+        Debug.Log(input);
         if (Enum.TryParse(ToCamelCase(input), true, out Sprites sprite))
         {
             return "<sprite=" + (int)sprite + "> " + content;
@@ -95,7 +96,7 @@ public class DisplayBinding : MonoBehaviour
 
         rightTrigger = 21,
         rightBumper = 22,
-        rightStick = 24,
+        rightstickpress = 24,
 
         a = 25,
         b = 27,

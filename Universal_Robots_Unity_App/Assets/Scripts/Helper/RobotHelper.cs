@@ -15,7 +15,7 @@ namespace Robot
 
         public void MoveZero() => CMD.MoveJ(RobotPos.Zero.ToPose());
 
-        public void EmergencyStop() => CMD.Stop();
+        public void EmergencyStop() => CMD.EmergencyStop();
 
         public void Test()
         {
