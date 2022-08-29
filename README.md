@@ -1,7 +1,11 @@
-# Universal Robots Unity3D App
+<p align="center">
+<img src="./images/gg-logo.png" width="200">
+</p>
+
+# UR - Unity3D Digital Twin
 Control the [Universal Robots](https://www.universal-robots.com/) with Unity3D by using **URScript** and a **TCP/IP** communication.
 
-[<img src="images/screenshot3.jpg" width="60%">](https://youtu.be/4BE_jgSYYJU "UR Digital Twin showcase")
+[<img src="images/screenshot_4.jpg" width="60%">](https://youtu.be/4BE_jgSYYJU "UR Digital Twin showcase")
 
 You can find a documentation of more commands URScript commands in the official [Manual](https://www.universal-robots.com/download/manuals-e-series/script/script-manual-e-series-sw-511/).
 
@@ -22,14 +26,21 @@ You can find a documentation of more commands URScript commands in the official 
 # Features
 ## Virtual UR Twin
 Use the game engine Unity3D to directly move your UR robot.
+<img src="images/screenshot_tutorial.jpg" width="600"/>
 
 ## Game Controller Support
-Move the robot with a PS4 game controller
+Full support for common game controllers, e.g. for Playstation and Xbox.
 
 ## Waypoints
 Create a simple movement set in an intuitive virtual environment without needing any skills in robotic. 
 
-<img src="images/screenshot1.jpg" width="500"/>
+<img src="images/screenshot_3.jpg" width="600"/>
+
+## User friendly
+You will be guided throw a tutorial to lean the controls and more.
+All logs from the Robot will be print out in alert boxes. You have full control of brakes and  [Hand-e Grippers from Robotiq](https://robotiq.com/de/produkte/adaptiver-2-finger-robotergreifer-hand-e).
+
+<img src="images/screenshot_2.jpg" width="600"/>
 
 <br><br>
 
@@ -82,8 +93,6 @@ Create a simple movement set in an intuitive virtual environment without needing
    # Unity
       IP: 192.168.0.102
        ```
-
-<img src="images/screenshot2.jpg" width="500"/>
 
 # Sources
 * [Realtime Interface documentation (deprecated)](https://s3-eu-west-1.amazonaws.com/ur-support-site/16496/ClientInterfaces_Realtime.pdf)
