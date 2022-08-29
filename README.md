@@ -16,7 +16,6 @@ You can find a documentation of more commands URScript commands in the official 
 | Software / Package           | Description / Link                                                                                  |
 | -------------------------- | ------------------------------------------------------------------------------------- |
 | OS                         | *Linux* or *Windows*
-| Blender 2.9.xx             | https://www.blender.org/download/                                                     |
 | Unity3D 2020.3.xx          | https://unity3d.com/get-unity/download/archive                                        |
 | Docker                     | https://docs.docker.com/get-docker/
 | UR Simulator               | https://github.com/vushu/DockURSim                                            |
