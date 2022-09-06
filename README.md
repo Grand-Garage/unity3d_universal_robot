@@ -5,9 +5,13 @@
 # UR - Unity3D Digital Twin
 Control the [Universal Robots](https://www.universal-robots.com/) with Unity3D by using **URScript** and a **TCP/IP** communication.
 
-[<img src="images/screenshot_4.jpg" width="80%">](https://youtu.be/4BE_jgSYYJU "UR Digital Twin showcase")
+**Showcase with PolyScope**
+[<img src="images/screenshot_4.jpg" width="80%">](https://youtu.be/tatGOp3HRJc "UR Digital Twin showcase")
 
 You can find a documentation of more commands URScript commands in the official [Manual](https://www.universal-robots.com/download/manuals-e-series/script/script-manual-e-series-sw-511/).
+
+**Showcase with PolyScope**
+[<img src="images/ployscope_video.jpg" width="80%">](https://youtu.be/4BE_jgSYYJU "UR Digital Twin - polyscope showcase")
 
 <br><br>
 
